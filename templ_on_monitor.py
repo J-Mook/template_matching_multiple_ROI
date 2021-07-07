@@ -1,11 +1,11 @@
 import os
-import cv2
+import cv2, math
 import numpy as np
 import pandas as pd
 import pyautogui
 
-img = r"C:\Users\pc\github\template_matching_multiple_ROI"
-tpl = cv2.imread(os.path.join(img, 'temp.png'), cv2.IMREAD_GRAYSCALE)
+img_path = os.path.dirname(os.path.realpath(__file__))
+tpl = cv2.imread(os.path.join(img_path, 'temp.png'), cv2.IMREAD_GRAYSCALE)
 th, tw = tpl.shape[:2]
 
 cv2.namedWindow('result')
