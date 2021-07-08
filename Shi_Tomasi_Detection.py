@@ -17,7 +17,7 @@ while(cv2.waitKey(1)):
     corners = cv2.goodFeaturesToTrack(gray, 80, 0.01, 10)
     # 실수 좌표를 정수 좌표로 변환
     corners = np.int32(corners)
-
+    
     # 좌표에 동그라미 표시
     for corner in corners:
         x, y = corner[0]
@@ -28,5 +28,5 @@ while(cv2.waitKey(1)):
     # if cv2.waitKey(1) & 0xFF == ord('q'):
 	# 	break	
 	
-cap.release()
+capture.release()
 cv2.destroyAllWindows()
