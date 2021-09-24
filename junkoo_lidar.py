@@ -7,6 +7,9 @@ from std_msgs.msg import Int32MultiArray
 from sensor_msgs.msg import PointCloud2
 import sensor_msgs.point_cloud2 as pc2
 
+import pcl
+import pcl_helper
+
 pcd = o3d.io.read_point_cloud("/Users/jm/git/template_matching_multiple_ROI/resrc/lidar_sample.ply")
 
 def pcd_callback(data):
