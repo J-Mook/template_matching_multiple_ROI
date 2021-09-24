@@ -5,8 +5,8 @@ import numpy as np
 size_const = 1
 
 capture = cv2.VideoCapture(0) #Webcam Capture
-capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280/size_const)
-capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720/size_const)
+# capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280/size_const)
+# capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720/size_const)
 
 
 while(cv2.waitKey(1)):
