@@ -10,10 +10,12 @@ import sensor_msgs.point_cloud2 as pc2
 import pcl
 import pcl_helper
 
-pcd = o3d.io.read_point_cloud("/Users/jm/git/template_matching_multiple_ROI/resrc/lidar_sample.ply")
+# pcd = o3d.io.read_point_cloud("/Users/jm/git/template_matching_multiple_ROI/resrc/lidar_sample.ply")
+pcd = o3d.geometry.PointCloud()
 
 def pcd_callback(data):
-    cloud = pcl_helper.ros_to_pcl(data)
+    global pcd
+    pcd = pcl_helper.ros_to_pcl(data)
 
 def main():
     
@@ -23,6 +25,7 @@ def main():
     rate = rospy.Rate(5) # 10hz
 
     while not rospy.is_shutdown():
+
         picked_pcd = o3d.geometry.PointCloud()
         # with o3d.utility.VerbosityContextManager(o3d.utility.VerbosityLevel.Debug) as cm:
         labels = np.array(pcd.cluster_dbscan(eps=50, min_points=50, print_progress=False))
