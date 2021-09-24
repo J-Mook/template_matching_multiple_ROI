@@ -1,8 +1,8 @@
 import cv2
 import time
 import numpy as np
-import rospy
-from std_msgs.msg import Int32MultiArray
+# import rospy
+# from std_msgs.msg import Int32MultiArray
 
 # # #FULL ROI
 roi_x = 0
@@ -10,6 +10,9 @@ roi_y = 0
 roi_w = 1280
 roi_h = 720
 receive_data = []
+
+roi_x = int(roi_x - roi_w/2 + 640)
+roi_y = int(roi_y - roi_h/2 + 360)
 
 def roi_callback(data):
 	global receive_data
@@ -22,8 +25,8 @@ def roi_callback(data):
 def main():
 	global receive_data
 
-	rospy.init_node('vision', anonymous=True)
-	rospy.Subscriber("ROI_data", Int32MultiArray, roi_callback)
+	# rospy.init_node('vision', anonymous=True)
+	# rospy.Subscriber("ROI_data", Int32MultiArray, roi_callback)
 
 	size_const = 4
 
@@ -31,16 +34,16 @@ def main():
 	capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 	capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
-	template = cv2.imread('temp.png', 0)
 	
 	open('time.txt', 'w').close()
 
 	while(True):
-		roi_x = receive_data[0]
-		roi_y = receive_data[1]
-		roi_w = receive_data[2]
-		roi_h = receive_data[3]
+		# roi_x = receive_data[0]
+		# roi_y = receive_data[1]
+		# roi_w = receive_data[2]
+		# roi_h = receive_data[3]
 		start_time = time.time()
+		template = cv2.imread('temp.png', 0)
 		
 		ret, frame = capture.read()
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -61,7 +64,8 @@ def main():
 			res = cv2.matchTemplate(roi_gray, template, cv2.TM_CCOEFF_NORMED)
 
 			threshold = 0.3
-			loc = np.where(res >= threshold)
+			loc = np.where((res > threshold) & (res == np.max(res)))
+			# loc = np.where(res > threshold)
 
 			for pt in zip(*loc[::-1]):
 				cv2.rectangle(frame, (pt[0] + roi_x, pt[1] + roi_y), (pt[0] + int(w/size_const) + roi_x, pt[1] + int(h/size_const) + roi_y), (0, 0, 255), 2)
@@ -79,7 +83,7 @@ def main():
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			break	
 
-		rospy.spin()
+		# rospy.spin()
 
 if __name__ == '__main__':
 	main()
