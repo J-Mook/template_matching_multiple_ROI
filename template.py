@@ -1,8 +1,8 @@
 import cv2
 import time
 import numpy as np
-# import rospy
-# from std_msgs.msg import Int32MultiArray
+import rospy
+from std_msgs.msg import Int32MultiArray
 
 # # #FULL ROI
 roi_x = 0
@@ -25,8 +25,8 @@ def roi_callback(data):
 def main():
 	global receive_data
 
-	# rospy.init_node('vision', anonymous=True)
-	# rospy.Subscriber("ROI_data", Int32MultiArray, roi_callback)
+	rospy.init_node('vision', anonymous=True)
+	rospy.Subscriber("ROI_data", Int32MultiArray, roi_callback)
 
 	size_const = 4
 
@@ -38,10 +38,10 @@ def main():
 	open('time.txt', 'w').close()
 
 	while(True):
-		# roi_x = receive_data[0]
-		# roi_y = receive_data[1]
-		# roi_w = receive_data[2]
-		# roi_h = receive_data[3]
+		roi_x = receive_data[0]
+		roi_y = receive_data[1]
+		roi_w = receive_data[2]
+		roi_h = receive_data[3]
 		start_time = time.time()
 		template = cv2.imread('temp.png', 0)
 		
@@ -74,7 +74,6 @@ def main():
 
 		cv2.imshow('Test',frame)
 		cv2.imshow('template',template)
-		# cv2.imshow('ROI',roi_gray)
 		
 		if stuff > 0:
 			with open('time.txt', 'a') as f:
@@ -83,7 +82,7 @@ def main():
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			break	
 
-		# rospy.spin()
+		rospy.spin()
 
 if __name__ == '__main__':
 	main()
