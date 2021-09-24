@@ -2,7 +2,7 @@ import open3d as o3d
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-import rospy
+import rospy, ros_numpy
 from std_msgs.msg import Int32MultiArray
 from sensor_msgs.msg import PointCloud2
 import sensor_msgs.point_cloud2 as pc2
@@ -15,7 +15,9 @@ pcd = o3d.geometry.PointCloud()
 
 def pcd_callback(data):
     global pcd
-    pcd = pcl_helper.ros_to_pcl(data)
+    # pcd_array = pcl_helper.ros_to_pcl(data)
+    xyz_array = ros_numpy.point_cloud2.pointcloud2_to_xyz_array(data)
+    pcd.points = o3d.utility.Vector3dVector(xyz_array)
 
 def main():
     
